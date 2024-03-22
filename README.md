@@ -65,10 +65,19 @@
   
 
 # 데이터 전처리
-- 
+- referral_path와 keyword 범주형 변수 ('Category1', 'Others', 'Category2', 'Category11', 'Category3','Category10', 'Category6', 'Category8', 'Category5', 'Category12','Category13', 'Category7', 'Category9', 'Category4') 이와 같은 범주 형태 가지도록 처리
+- 'browser', 'OS', 'device', 'country','continent', 'subcontinent', 'traffic_source', 'traffic_medium', 'referral_path', 'keyword' 범주형 변수들 원핫인코딩 처리
+- 'quality', 'duration', 'transaction', 'transaction_revenue' 변수 standard scaler를 활용하여 표준화
+- 수치형 변수들의 조합으로 22개 변수 추가 생성(feature engineering)
+  
 
 # 모델링
-- 
+- parameter(random_state=2024, n_estimators=200, max_depth=12)를 설정하여 randomforest 모델 fitting(RMSE: 3.02)
+- parameter(random_state=2024, n_estimators=100, max_depth=10)를 설정하여 catboost 모델 fittint(RMSE: 3.02)
+- parameter(random_state=2024, n_estimators=100, max_depth=10)를 설정하여 xgboost 모델 fittint(RMSE: 3.13)
+- parameter(random_state=2024, learning_rate=0.05, max_depth=20, min_child_samples=30, n_estimators=180, num_leaves=40)를 설정하여 lgbm 모델 fitting(RMSE: 2.95) -> 최종모델 선정
+- optuna 방법을 활용하여 하이퍼파라미터튜닝(learning_rate=0.05629447251416819, max_depth=18, min_child_samples=12, n_estimators=146, num_leaves=35) 수행 후 lgbm 모델 fitting
+- randomforest(max_depth=15, random_state=2024), lgbm(learning_rate=0.05, max_depth=20, min_child_samples=30, num_leaves=40,random_state=202),  catboost((random_state=2024, n_estimators=100, max_depth=10, learning_rate=0.1) 설정 후 stacking model(최종모델 lgbm(random_state=2024, n_estimators=100, max_depth=20, learning_rate=0.05, num_leaves=40, min_child_samples=30)) fitting(RMSE: 2.99)
 
 # 느낀점
-- 
+- 단일 모델이 아닌 ENSEMBLE방식을 다양하게 활용하여 모델링을 진행했으면 더 좋은 성과가 나오지 않았을까 생각한다. 다음 대회에 참여하게 된다면 다양한 ENSEMBLE 방법을 적용하여 더 성능이 높은 모델을 만들도록 해야겠다.
